@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { User } from "../utils/interfaces";
+import Login from "./login";
+import Register from "./register";
 // import styles from "@/styles/Home.module.css";
 
 // const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +25,8 @@ const Home = () => {
   return (
     <>
       <h1>Hello {user.userName}</h1>
+      <Login />
+
     </>
   );
 };
