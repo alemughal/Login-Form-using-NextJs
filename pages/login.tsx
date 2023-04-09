@@ -1,16 +1,42 @@
-import antd from "antd";
 import Link from "next/link";
-import { Form, Input, Checkbox, Button } from "antd";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { Form, Input, Checkbox, Button, message } from "antd";
+import { loginUser } from "../store/actions/authActions";
+import { User } from "@/utils/interfaces";
 
 const Login = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const users: User[] = useSelector((state: any) => state?.authReducer.users);
+
+  const onFinish = (values: User) => {
+    console.log("values",values);
+    if (!values?.email || !values?.password) {
+      return message.error("Please fill all the fields correctly");
+    } else if (values?.password.length < 6) {
+      return message.error("Password must be at least 6 characters long");
+    }
+
+    values.email = values.email.toLowerCase();
+
+    for(var u of users) {
+        console.log(u)
+      if (u?.email === values.email && u.password === values.password) {
+        dispatch(loginUser(u));
+        message.success("Login Successful");
+        return router.push("/");
+      }
+    }
+
+    message.error("Email or Password is incorrect");
+
+
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-
   return (
     <div className="login-page">
       <div className="login-box">
@@ -29,7 +55,7 @@ const Login = () => {
           <p className="form-title">Welcome back</p>
           <p>Login to the Dashboard</p>
           <Form.Item
-            name="username"
+            name="email"
             rules={[{ required: true, message: "Please input your Email!" }]}
           >
             <Input placeholder="Email" />
@@ -55,11 +81,10 @@ const Login = () => {
               LOGIN
             </Button>
           </Form.Item>
-        <p>
-          Don't have an Account? <Link href={"/register"}>Register</Link>
-        </p>
+          <p>
+            Don't have an Account? <Link href={"/register"}>Register</Link>
+          </p>
         </Form>
-
       </div>
     </div>
   );

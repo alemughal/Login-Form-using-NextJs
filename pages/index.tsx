@@ -1,14 +1,26 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { User } from "../utils/interfaces";
+// import styles from "@/styles/Home.module.css";
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const Home = () => {
+  const user: any = useSelector((state: any) => state?.authReducer.users);
+  console.log("user", user);
+  const router = useRouter();
+  useEffect(() => {
+    if (user?.id) {
+      router.push("/login");
+    }
+  }, []);
+
   return (
     <>
-      <h1>Hello World</h1>
+      <h1>Hello {user.userName}</h1>
     </>
-  )
-}
+  );
+};
+
+export default Home;
