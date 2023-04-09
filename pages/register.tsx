@@ -1,10 +1,13 @@
-import antd from "antd";
 import Link from "next/link";
-import { Form, Input, Checkbox, Button } from "antd";
+import { Form, Input, Checkbox, Button, message } from "antd";
+import { registerUser } from "../store/actions/authActions";
 
-const Login = () => {
+const Register = () => {
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    if (!values?.username || !values?.email || !values?.password || values?.password.length > 6) {
+      return message.error("Please fill all the fields correctly");
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -27,7 +30,15 @@ const Login = () => {
           onFinishFailed={onFinishFailed}
         >
           <p className="form-title">Welcome back</p>
-          <p>Login to the Dashboard</p>
+          <h2>Register Yourself</h2>
+
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your FullName" }]}
+          >
+            <Input placeholder="Full Name" />
+          </Form.Item>
+
           <Form.Item
             name="username"
             rules={[{ required: true, message: "Please input your Email!" }]}
@@ -52,17 +63,17 @@ const Login = () => {
               htmlType="submit"
               className="login-form-button"
             >
-              LOGIN
+              SIGN UP
             </Button>
           </Form.Item>
-        <p>
-          Don't have an Account? <Link href={"/register"}>Register</Link>
-        </p>
-        </Form>
 
+          <p>
+            Already have an Account? <Link href={"/login"}>Login</Link>
+          </p>
+        </Form>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
