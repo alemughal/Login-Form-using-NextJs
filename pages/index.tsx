@@ -24,7 +24,7 @@ const Home = () => {
 
   return (
     <>
-      <h1>Hello {user.userName}</h1>
+      {/* <h1>Hello {user.userName}</h1> */}
       <Login />
 
     </>
