@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { Form, Input, Button, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +9,7 @@ const Register = () => {
   const users = useSelector((state: any) =>
     state?.authReducer.users?.map((user: any) => user?.email)
   );
-//   console.log("users", users);
+  //   console.log("users", users);
 
   const onFinish = (values: any) => {
     // console.log("Success:", values);
@@ -35,6 +36,10 @@ const Register = () => {
 
   return (
     <div className="login-page">
+      <Head>
+        <title>Sign Up</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="login-box">
         <div className="illustration-wrapper">
           <img

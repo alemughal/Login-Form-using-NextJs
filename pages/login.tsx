@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +12,7 @@ const Login = () => {
   const users: User[] = useSelector((state: any) => state?.authReducer.users);
 
   const onFinish = (values: User) => {
-    console.log("values",values);
+    console.log("values", values);
     if (!values?.email || !values?.password) {
       return message.error("Please fill all the fields correctly");
     } else if (values?.password.length < 6) {
@@ -20,8 +21,8 @@ const Login = () => {
 
     values.email = values.email.toLowerCase();
 
-    for(var u of users) {
-        console.log(u)
+    for (var u of users) {
+      console.log(u);
       if (u?.email === values.email && u.password === values.password) {
         dispatch(loginUser(u));
         message.success("Login Successful");
@@ -30,8 +31,6 @@ const Login = () => {
     }
 
     message.error("Email or Password is incorrect");
-
-
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -39,6 +38,10 @@ const Login = () => {
   };
   return (
     <div className="login-page">
+      <Head>
+        <title>Login</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="login-box">
         <div className="illustration-wrapper">
           <img
